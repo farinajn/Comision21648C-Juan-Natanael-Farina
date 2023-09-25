@@ -9,6 +9,7 @@ module.exports = (db) => {
       title: { type: DataTypes.STRING, allowNull: false },
       content: { type: DataTypes.STRING, allowNull: false },
       link: { type: DataTypes.STRING, allowNull: false },
+      image: { type: DataTypes.STRING, allowNull: false },
     },
     { sequelize: db, timestamps: true, modelName: "post" }
   );
