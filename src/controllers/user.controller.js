@@ -1,4 +1,10 @@
-const User = require("../database/user");
+const User = require("../models/user.models");
+
+const ctlrUsers = {};
+
+//CRUD
+
+//CONTROLADORES PARA
 
 function compareUser(user, password) {
   return user.password === password;
