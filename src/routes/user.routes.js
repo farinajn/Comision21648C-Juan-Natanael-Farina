@@ -22,4 +22,14 @@ userRouter.post("/login", async (req, res) => {
   });
 });
 
+userRouter.get("/new", async (req, res) => {
+  return render("newUser", { title: "Nuevo Usuario" });
+});
+
+userRouter.post("/new", async (req, res) => {
+  // lamar al controller que crea el usuario
+  // si falta algun dato o algun error devolves status 500
+  // devolves el usuario creado
+});
+
 module.exports = userRouter;

@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userRouter = require("./routes/user.routes");
+const indexRouter = require("./routes/index.routes");
 
 const { TestConnection } = require("./database/db");
 
@@ -34,6 +35,7 @@ app.get("/login", async (req, res) => {
   return res.render("login", { title: "LOG IN" });
 });
 
+app.use(indexRouter);
 app.use(userRouter);
 
 //test de conexión
