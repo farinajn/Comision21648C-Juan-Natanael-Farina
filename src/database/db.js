@@ -13,19 +13,28 @@ const db = new Sequelize(dbname, dbuser, dbpass, {
   dialect: dbdialect,
 });
 
-const basename = path.basename(__filename); // nombre del archivo actual
+// const basename = path.basename(__filename); // nombre del archivo actual
 
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    // filtramos todos los archivos que no son .js (algun seed, algun json...)
-    // filtramos el archivo desde el cual estamos ejecutando esta funcion
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(db);
-  });
+// fs.readdirSync(__dirname)
+//   .filter((file) => {
+//     // filtramos todos los archivos que no son .js (algun seed, algun json...)
+//     // filtramos el archivo desde el cual estamos ejecutando esta funcion
+//     return (
+//       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+//     );
+//   })
+//   .forEach((file) => {
+//     const model = require(path.join(__dirname, file))(db);
+//   });
+
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
+
+// db.sequelize = db;
+// db.Sequelize = Sequelize;
 
 const TestConnection = async () => {
   try {
@@ -34,17 +43,12 @@ const TestConnection = async () => {
 
     const schemas = await db.getQueryInterface().showAllSchemas();
 
-    console.log("// Tables in database", "==========================");
+    console.log("// Tables in database", "===");
     console.log(schemas);
 
-    console.log(
-      "Te conectaste correctamente a la base de datos. Sos un campeón!"
-    );
+    console.log("Te conectaste correctamente a la base de datos");
   } catch (error) {
-    console.error(
-      "No te pudiste conectar a la base de datos, cosas que pasan....",
-      error
-    );
+    console.error("No te pudiste conectar a la base de datos", error);
   }
 };
 
