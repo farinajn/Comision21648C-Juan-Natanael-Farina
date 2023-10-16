@@ -1,61 +1,4 @@
-const User = require("../models/user.models");
-
-// const controllerUsers = {};
-
-// controllerUsers.getAllUsers = async (req,res) => {
-//   // return await User.findAll();
-//   return { titleUser: "Usuarios", results: await User.findAll() }
-
-//   // res.render("user", { titleUser: "Usuarios", results: users });
-// };
-
-// controllerUsers.deleteAllUsers = async (req, res) => {
-// };
-
-// module.exports = controllerUsersInLine;
-
-// // routes
-// const userRouter = require("express").Router();
-
-// // http://localhost:3000/user
-// userRouter.get("/", async (req,res)=>{
-//   const data = await controllerUsers.getAllUsers(req,res);
-
-//   res.render("user", data);
-// });
-
-// // http://localhost:3000/user/1
-// userRouter.get("/:id", async (req,res)=>{
-//   const data = await controllerUsers.getAllUsers(req,res);
-
-//   res.render("user", data);
-// });
-
-// // en app.js
-// // http://localhost:3000
-// app.get('/', (req, res) => {
-//   res.render('index', { title: 'Home' });
-// });
-
-// app.use("/user", userRouter);
-
-// // http://localhost:3000/user
-
-// // controllers
-// // funciones que ejecutan algo y devuelven algo
-
-// // routes
-// // rutas que ejecutan un controlador y devuelven una vista
-
-// // views
-// // templates que se parsean con datos y devuelven html
-// // ESTO NO ES HTML<%= titleUser %> ejs --> HTML <div>Usuarios</div>
-// // {{ titleUser }} handlebars --> HTML <div>Usuarios</div>
-// // jsx react return <div>{titleUser}</div> --> HTML <div>Usuarios</div>
-
-//CRUD
-
-//CONTROLADORES PARA
+const { db } = require("../database/db");
 
 function compareUser(user, password) {
   return user.password === password;
@@ -65,7 +8,7 @@ module.exports = {
   login: async (email, password) => {
     if (!email || !password) return null;
 
-    const user = await User.findOne({ email });
+    const user = await db.models.user.findOne({ email });
 
     if (!user) return null;
 
@@ -76,22 +19,27 @@ module.exports = {
     return user;
   },
   new: async (input) => {
-    // chequear que tengas todos los datos ...segun modelo de db
+    if (!input || !input.userName || !input.email || !input.password)
+      return null;
 
-    // creas el usuario en la db
-    // const user = await User.create(input);
+    const data = {
+      name: input.userName,
+      email: input.email,
+      password: input.password,
+    };
 
-    // podes meter un try catch por si hay error al crear el usuario
+    console.log("DATA ", data);
 
     try {
-      const user = await User.create(input);
+      const user = await db.models.user.create(data);
       return user;
     } catch (error) {
+      console.log("@userController - new", error);
       return error.message;
     }
   },
   getById: async (id) => {
     if (!id) return null;
-    return await User.findById(id);
+    return await db.models.user.findById(id);
   },
 };

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%=title%>
+    </title>
+    <%- include("partials/head") %>
+</head>
+
+<body>
+    <%- include("partials/navBar") %>
+
+        <div>
+            <h1>Vista de crear nuevo usuario</h1>
+        </div>
+        <div>
+            <h2><%=userName%></h2>
+        </div>
+        <div class="container">
+            <div class="wrapper">
+                <form action="/user/new" method="post" name="NewUser" class="form-newUser">
+                    <h3 class="form-signin-heading">CREAR USUARIO NUEVO!!!!LOGI</h3>
+                    <input type="text" class="form-control" name="userName" placeholder="Nombre de usuario" required="true" autofocus="" />
+                    <input type="text" class="form-control" name="email" placeholder="Email" required="true" autofocus="" />
+                    <input type="text" class="form-control" name="password" placeholder="Contraseña" required="true" autofocus="" />
+                    <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Crear usuario" type="Submit">Crear nuevo usuario</button>
+                </form>
+            </div>
+        </div>
+
+        <%- include("partials/footer") %>
+</body>
+
+</html>

@@ -13,28 +13,15 @@ const db = new Sequelize(dbname, dbuser, dbpass, {
   dialect: dbdialect,
 });
 
-// const basename = path.basename(__filename); // nombre del archivo actual
+const MODELS = ["post", "user"];
 
-// fs.readdirSync(__dirname)
-//   .filter((file) => {
-//     // filtramos todos los archivos que no son .js (algun seed, algun json...)
-//     // filtramos el archivo desde el cual estamos ejecutando esta funcion
-//     return (
-//       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-//     );
-//   })
-//   .forEach((file) => {
-//     const model = require(path.join(__dirname, file))(db);
-//   });
-
-// Object.keys(db).forEach((modelName) => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
-
-// db.sequelize = db;
-// db.Sequelize = Sequelize;
+function initModels(models) {
+  console.log("Initializing models...");
+  MODELS.forEach((model) => {
+    require(`../models/${model}.models.js`)(db);
+  });
+}
+initModels(MODELS);
 
 const TestConnection = async () => {
   try {
@@ -43,8 +30,12 @@ const TestConnection = async () => {
 
     const schemas = await db.getQueryInterface().showAllSchemas();
 
-    console.log("// Tables in database", "===");
-    console.log(schemas);
+    console.log(
+      "--------------------------Tables in database--------------------------\n",
+      schemas,
+      "\n--------------------------Models in database--------------------------\n",
+      db.models
+    );
 
     console.log("Te conectaste correctamente a la base de datos");
   } catch (error) {

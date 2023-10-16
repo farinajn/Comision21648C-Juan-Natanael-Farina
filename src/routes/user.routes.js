@@ -1,6 +1,14 @@
 const userRouter = require("express").Router();
 const userController = require("../controllers/user.controller");
 
+//Ruta para acceder a la pagina personal del usuario
+// http://localhost:3000/user/user
+userRouter.get("/user", async (req, res) => {
+  return res.render("user", { title: "Esta es la pagina de usuario" });
+});
+
+//Ruta para acceder a la pagina de login
+// http://localhost:3000/user/login
 userRouter.post("/login", async (req, res) => {
   const email = req?.body?.email;
   const password = req?.body?.password;
@@ -22,14 +30,35 @@ userRouter.post("/login", async (req, res) => {
   });
 });
 
+// Ruta para acceder a la pagina de registro
+// http://localhost:3000/user/new
 userRouter.get("/new", async (req, res) => {
-  return render("newUser", { title: "Nuevo Usuario" });
+  return res.render("newUser", { title: "Nuevo Usuario", userName: "" });
+});
+userRouter.post("/new", async (req, res) => {
+  const newUser = await userController.new(req.body);
+  if (!newUser) {
+    return res.status(500).json({
+      message: "Error al crear el usuario",
+    });
+  }
+  return res.render("newUser", {
+    title: "Nuevo Usuario",
+    userName: `Usuario ${newUser.name} creado con exito`,
+  });
 });
 
-userRouter.post("/new", async (req, res) => {
-  // lamar al controller que crea el usuario
-  // si falta algun dato o algun error devolves status 500
-  // devolves el usuario creado
+userRouter.get("/", async (req, res) => {
+  const allUsers = await userController.getAll();
+  return res.render("allUsers", { title: "Nuevo Usuario", allUsers });
+});
+
+// htttp://localhost:3000/users/123
+userRouter.get("/:id", async (req, res) => {
+  const userId = req.params?.id;
+  const user = await userController.getById(userId);
+  // user = {id:string;name:string;email:string;password:string;}
+  return res.render("user", { title: "User", user });
 });
 
 module.exports = userRouter;
